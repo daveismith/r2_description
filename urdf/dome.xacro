@@ -59,4 +59,45 @@
     <xacro:pie_panel name="pp5" x="${pp5_x}" y="${pp5_y}" z="${pp5_z}" angle_deg="${pp5_angle_deg}" />
     <xacro:pie_panel name="pp6" x="${pp6_x}" y="${pp6_y}" z="${pp6_z}" angle_deg="${pp6_angle_deg}" />
 
+    <!-- Lower Panels -->
+    <xacro:macro name="lower_panel" params="name x y z angle_deg">
+        <xacro:property name="rot" value="${radians(90 - angle_deg)}" />
+
+        <joint name="${name}_joint" type="revolute">
+            <parent link="dome" />
+            <child link="${name}" />
+            <origin xyz="${x} ${y} ${z}" rpy="0 ${rot} 0" />
+            <axis xyz="-1 0 0" />
+            <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
+        </joint>
+
+        <link name="${name}">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${-rot} 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/dome/${name.upper()}.obj" scale="0.01 0.01 0.01" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${-rot} 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/dome/${name.upper()}.obj" scale="0.01 0.01 0.01" />
+                </geometry>
+            </collision>
+            <xacro:inertial_sphere mass="0.01" radius="0.01">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+    </xacro:macro>
+
+    <xacro:lower_panel name="p1" x="${p1_x}" y="${p1_y}" z="${p1_z}" angle_deg="${p1_angle_deg}" />
+    <xacro:lower_panel name="p2" x="${p2_x}" y="${p2_y}" z="${p2_z}" angle_deg="${p2_angle_deg}" />
+    <xacro:lower_panel name="p3" x="${p3_x}" y="${p3_y}" z="${p3_z}" angle_deg="${p3_angle_deg}" />
+    <xacro:lower_panel name="p4" x="${p4_x}" y="${p4_y}" z="${p4_z}" angle_deg="${p4_angle_deg}" />
+    <xacro:lower_panel name="p7" x="${p7_x}" y="${p7_y}" z="${p7_z}" angle_deg="${p7_angle_deg}" />
+    <xacro:lower_panel name="p10" x="${p10_x}" y="${p10_y}" z="${p10_z}" angle_deg="${p10_angle_deg}" />
+    <xacro:lower_panel name="p11" x="${p11_x}" y="${p11_y}" z="${p11_z}" angle_deg="${p11_angle_deg}" />
+    <xacro:lower_panel name="p13" x="${p13_x}" y="${p13_y}" z="${p13_z}" angle_deg="${p13_angle_deg}" />
+
+
 </robot>
