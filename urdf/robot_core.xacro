@@ -496,6 +496,9 @@
         <axis xyz="0 -1 0" />
     </joint>
 
+    <xacro:include filename="dome.xacro" />
+
+    <!--
     <link name="dome">
         <visual>
             <geometry>
@@ -511,5 +514,6 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_sphere>
     </link>
+    -->
 
 </robot>

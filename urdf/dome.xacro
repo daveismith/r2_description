@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <link name="dome">
+        <visual>
+            <geometry>
+                <mesh filename="package://r2_description/meshes/dome/base_dome.obj" scale="0.01 0.01 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://r2_description/meshes/dome/base_dome.obj" scale="0.01 0.01 0.01" />
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="1" radius="${dome_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+    </link>
+
+    <joint name="pp1_joint" type="continuous">
+        <parent link="dome" />
+        <child link="pp1" />
+        <origin xyz="-0.114748 0.225099 0.06625" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="pp1">
+        <visual>
+            <geometry>
+                <mesh filename="package://r2_description/meshes/dome/PP1.obj" scale="0.01 0.01 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://r2_description/meshes/dome/PP1.obj" scale="0.01 0.01 0.01" />
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="1" radius="${dome_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+    </link>
+
+</robot>
