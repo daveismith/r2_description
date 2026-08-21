@@ -1,6 +1,41 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
+    <xacro:include filename="../meshes/dome/dome_constants.xacro"/>
+
+    <!-- R is Red Axis, P is Green Axis, Y is Blue Axis -->
+    <!---->
+
+    <xacro:macro name="pie_panel" params="name x y z angle_deg">
+        <xacro:property name="rot" value="${radians(90 - angle_deg)}" />
+
+        <joint name="${name}_joint" type="revolute">
+            <parent link="dome" />
+            <child link="${name}" />
+            <origin xyz="${x} ${y} ${z}" rpy="0 ${rot} 0" />
+            <axis xyz="1 0 0" />
+            <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
+        </joint>
+
+        <link name="${name}">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${-rot} 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/dome/${name.upper()}.obj" scale="0.01 0.01 0.01" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${-rot} 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/dome/${name.upper()}.obj" scale="0.01 0.01 0.01" />
+                </geometry>
+            </collision>
+            <xacro:inertial_sphere mass="0.01" radius="0.01">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+    </xacro:macro>
+
     <link name="dome">
         <visual>
             <geometry>
@@ -17,31 +52,11 @@
         </xacro:inertial_sphere>
     </link>
 
-    <xacro:property name="pp1_angle" value="${radians(150)}" />
-    <joint name="pp1_joint" type="revolute">
-        <parent link="dome" />
-        <child link="pp1" />
-        <origin xyz="-0.114748 0.225099 0.06625" rpy="0 ${sin(pp1_angle)} 0" />
-        <axis xyz="0 0 1" />
-        <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
-    </joint>
+    <xacro:pie_panel name="pp1" x="${pp1_x}" y="${pp1_y}" z="${pp1_z}" angle_deg="${pp1_angle_deg}" />
+    <xacro:pie_panel name="pp2" x="${pp2_x}" y="${pp2_y}" z="${pp2_z}" angle_deg="${pp2_angle_deg}" />
 
-    <link name="pp1">
-        <visual>
-            <origin xyz="0 0 0" rpy="0 ${-sin(pp1_angle)} 0" />
-            <geometry>
-                <mesh filename="package://r2_description/meshes/dome/PP1.obj" scale="0.01 0.01 0.01" />
-            </geometry>
-        </visual>
-        <collision>
-            <origin xyz="0 0 0" rpy="0 ${-sin(pp1_angle)} 0" />
-            <geometry>
-                <mesh filename="package://r2_description/meshes/dome/PP1.obj" scale="0.01 0.01 0.01" />
-            </geometry>
-        </collision>
-        <xacro:inertial_sphere mass="1" radius="${dome_radius}">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_sphere>
-    </link>
+    <xacro:pie_panel name="pp4" x="${pp4_x}" y="${pp4_y}" z="${pp4_z}" angle_deg="${pp4_angle_deg}" />
+    <xacro:pie_panel name="pp5" x="${pp5_x}" y="${pp5_y}" z="${pp5_z}" angle_deg="${pp5_angle_deg}" />
+    <xacro:pie_panel name="pp6" x="${pp6_x}" y="${pp6_y}" z="${pp6_z}" angle_deg="${pp6_angle_deg}" />
 
 </robot>
