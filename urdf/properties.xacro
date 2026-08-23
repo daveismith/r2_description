@@ -53,5 +53,14 @@
   <xacro:property name="center_foot_depth" value="0.263525" />
   <xacro:property name="center_foot_height" value="0.1412748" />
 
+  <!-- Large Data Port -->
+  <xacro:property name="large_data_port_mass" value="0.5" />
+  <xacro:property name="large_data_port_width" value="0.127" />
+  <xacro:property name="large_data_port_length" value="0.127" />
+  <xacro:property name="large_data_port_height" value="${1.180 * 0.0254}" />
+
+  <!-- Top Utility Arm -->
+
+  <!-- Bottom Utility Arm -->
 
 </robot>
