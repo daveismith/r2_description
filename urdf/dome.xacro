@@ -36,6 +36,13 @@
         </link>
     </xacro:macro>
 
+    <joint name="dome_joint" type="continuous">
+        <parent link="body" />
+        <child link="dome" />
+        <origin xyz="0 0 ${dome_offset}" rpy="${radians(90)} 0 ${radians(180)}" />
+        <axis xyz="0 -1 0" />
+    </joint>
+
     <link name="dome">
         <visual>
             <geometry>

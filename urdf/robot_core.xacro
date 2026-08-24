@@ -311,27 +311,6 @@
         <parent link="shoulder" />
         <child link="body" />
     </joint>
-
-    <link name="body">
-        <visual>
-            <origin xyz="0 0 ${body_shoulder_offset}" rpy="${radians(90)} 0 ${radians(90)}" />
-            <geometry>
-                <!-- Exported in meters -->
-                <mesh filename="package://r2_description/meshes/frame.obj" scale="1 1 1" />
-            </geometry>
-        </visual>
-
-        <collision>
-            <origin xyz="0 0 ${body_shoulder_offset}" rpy="${radians(90)} 0 ${radians(90)}" />
-            <geometry>
-                <mesh filename="package://r2_description/meshes/frame.obj" scale="1 1 1" />
-            </geometry>
-        </collision>
-
-        <xacro:inertial_cylinder mass="${body_mass}" length="${body_height}" radius="${body_radius}">
-            <origin xyz="0 0 ${body_shoulder_offset - (body_height/2)}" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
     
     <!-- SKIRT -->
     <xacro:property name="skirt_mass" value="1"/>
@@ -488,96 +467,9 @@
         <mu2>0</mu2>
     </gazebo>
 
-    <!-- Large Data Port -->
-    <joint name="large_data_port_joint" type="fixed">
-        <parent link="body" />
-        <child link="large_data_port" />
-        <origin xyz="0 0 ${body_shoulder_offset - large_data_port_height}" rpy="${radians(90)} 0 ${radians(90)}" />
-    </joint>
-
-    <link name="large_data_port">
-        <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <geometry>
-                <mesh filename="package://r2_description/meshes/large_data_port.obj" scale="0.001 0.001 0.001" />
-            </geometry>
-        </visual>
-
-        <collision>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <geometry>
-                <mesh filename="package://r2_description/meshes/large_data_port.obj" scale="0.001 0.001 0.001" />
-            </geometry>
-        </collision>
-
-        <xacro:inertial_box mass="${large_data_port_mass}" x="${large_data_port_width}" y="${large_data_port_height}" z="${large_data_port_length}">
-            <origin xyz="0 ${large_data_port_height/2} 0" rpy="0 0 0"/>
-        </xacro:inertial_box>
-    </link>
-
-    <!-- Utility Arms -->
-    <xacro:macro name="utility_arm" params="name x y z angle_deg">
-
-        <xacro:property name="offsetX" value="${4.459 * 0.0254}" />
-        <xacro:property name="offsetY" value="${(1.375 / 2) * 0.0254}" />
-        <xacro:property name="offsetZ" value="${7.42 * 0.0254}" />
-
-        <joint name="${name}_joint" type="revolute">
-            <parent link="body" />
-            <child link="${name}" />
-            <origin xyz="${x} ${y} ${body_shoulder_offset - z}" rpy="${radians(90 + angle_deg)} 0 ${radians(90 + angle_deg)}" />
-            <axis xyz="0 1 0" />
-            <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
-        </joint>
-
-        <link name="${name}">
-            <visual>
-                <origin xyz="${-offsetX} ${offsetY} ${-offsetZ}" rpy="0 0 ${radians(180)}" />
-                <geometry>
-                    <mesh filename="package://r2_description/meshes/utility_arm.obj" scale="0.001 0.001 0.001" />
-                </geometry>
-            </visual>
-            <collision>
-                <origin xyz="${-offsetX} ${offsetY} ${-offsetZ}" rpy="0 ${radians(180)} 0" />
-                <geometry>
-                    <mesh filename="package://r2_description/meshes/utility_arm.obj" scale="0.001 0.001 0.001" />
-                </geometry>
-            </collision>
-            <xacro:inertial_sphere mass="0.01" radius="0.01">
-                <origin xyz="0 0 0" rpy="0 0 0"/>
-            </xacro:inertial_sphere>
-        </link>
-    </xacro:macro>
-
-    <xacro:utility_arm name="upper_utility_arm" x="${7.42 * 0.0254}" y="${4.459 * 0.0254}" z="${((3.476-1.181) / 2 + 1.181) * 0.0254 - 0.002}" angle_deg="0" />
-    <xacro:utility_arm name="lower_utility_arm" x="${7.42 * 0.0254}" y="-${4.459 * 0.0254}" z="${((5.888-3.536) / 2 + 3.536) * 0.0254 - 0.002}" angle_deg="180" />
+    <xacro:include filename="body.xacro" />
 
     <!-- DOME -->
-    <joint name="dome_joint" type="continuous">
-        <parent link="body" />
-        <child link="dome" />
-        <origin xyz="0 0 ${dome_offset}" rpy="${radians(90)} 0 ${radians(180)}" />
-        <axis xyz="0 -1 0" />
-    </joint>
-
     <xacro:include filename="dome.xacro" />
-
-    <!--
-    <link name="dome">
-        <visual>
-            <geometry>
-                <mesh filename="package://r2_description/meshes/dome.obj" />
-            </geometry>
-        </visual>
-        <collision>
-            <geometry>
-                <mesh filename="package://r2_description/meshes/dome.obj" />
-            </geometry>
-        </collision>
-        <xacro:inertial_sphere mass="1" radius="${dome_radius}">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_sphere>
-    </link>
-    -->
 
 </robot>

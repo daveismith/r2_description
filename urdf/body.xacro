@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    <xacro:include filename="../meshes/body/skin_constants.xacro" />
+
+    <xacro:macro name="body_panel" params="name x y z angle_deg">
+        <xacro:property name="rot" value="${radians(angle_deg)}" />
+        <xacro:property name="rotation_mult" value="-1" />
+
+        <xacro:if value="${(angle_deg &lt;= 90 and angle_deg &gt;= 0) or (angle_deg &lt;= -90)}">
+            <xacro:property name="rotation_mult" value="1" />
+        </xacro:if>
+
+        <joint name="${name}_joint" type="revolute">
+            <parent link="body" />
+            <child link="${name}" />
+            <origin xyz="${x} ${y} ${body_shoulder_offset + z}" rpy="0 0 ${radians(90)}" />
+            <axis xyz="0 0 ${rotation_mult}" />
+            <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
+        </joint>
+
+        <link name="${name}">
+            <visual>
+                <origin xyz="0 0 0" rpy="${radians(90)} 0 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/body/${name.upper()}.obj" scale="1 1 1" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${radians(90)} 0 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/body/${name.upper()}.obj" scale="1 1 1" />
+                </geometry>
+            </collision>
+            <xacro:inertial_sphere mass="0.01" radius="0.01">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+    </xacro:macro>
+
+    <!-- Body -->
+    <link name="body">
+        <visual>
+            <origin xyz="0 0 ${body_shoulder_offset}" rpy="${radians(90)} 0 ${radians(90)}" />
+            <geometry>
+                <!-- Exported in meters -->
+                <mesh filename="package://r2_description/meshes/body/outer_skin.obj" scale="1 1 1" />
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${body_shoulder_offset}" rpy="${radians(90)} 0 ${radians(90)}" />
+            <geometry>
+                <mesh filename="package://r2_description/meshes/body/outer_skin.obj" scale="1 1 1" />
+            </geometry>
+        </collision>
+
+        <xacro:inertial_cylinder mass="${body_mass}" length="${body_height}" radius="${body_radius}">
+            <origin xyz="0 0 ${body_shoulder_offset - (body_height/2)}" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <xacro:body_panel name="bf1" x="${bf1_z}" y="${bf1_x}" z="${bf1_y}" angle_deg="${bf1_angle_deg}" />
+    <xacro:body_panel name="bf2" x="${bf2_z}" y="${bf2_x}" z="${bf2_y}" angle_deg="${bf2_angle_deg}" />
+    <xacro:body_panel name="bf3" x="${bf3_z}" y="${bf3_x}" z="${bf3_y}" angle_deg="${bf3_angle_deg}" />
+    <xacro:body_panel name="bf4" x="${bf4_z}" y="${bf4_x}" z="${bf4_y}" angle_deg="${bf4_angle_deg}" />
+    <xacro:body_panel name="bf5" x="${bf5_z}" y="${bf5_x}" z="${bf5_y}" angle_deg="${bf5_angle_deg}" />
+
+    <xacro:body_panel name="br1" x="${br1_z}" y="${br1_x}" z="${br1_y}" angle_deg="${br1_angle_deg}" />
+    <xacro:body_panel name="br6" x="${br6_z}" y="${br6_x}" z="${br6_y}" angle_deg="${br6_angle_deg}" />
+
+    <!-- Large Data Port -->
+    <joint name="large_data_port_joint" type="fixed">
+        <parent link="body" />
+        <child link="large_data_port" />
+        <origin xyz="0 0 ${body_shoulder_offset - large_data_port_height}" rpy="${radians(90)} 0 ${radians(90)}" />
+    </joint>
+
+    <link name="large_data_port">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://r2_description/meshes/large_data_port.obj" scale="1 1 1" />
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://r2_description/meshes/large_data_port.obj" scale="1 1 1" />
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="${large_data_port_mass}" x="${large_data_port_width}" y="${large_data_port_height}" z="${large_data_port_length}">
+            <origin xyz="0 ${large_data_port_height/2} 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- Utility Arms -->
+    <xacro:macro name="utility_arm" params="name x y z angle_deg">
+
+        <xacro:property name="offsetX" value="${4.459 * 0.0254}" />
+        <xacro:property name="offsetY" value="${(1.375 / 2) * 0.0254}" />
+        <xacro:property name="offsetZ" value="${7.42 * 0.0254}" />
+
+        <joint name="${name}_joint" type="revolute">
+            <parent link="body" />
+            <child link="${name}" />
+            <origin xyz="${x} ${y} ${body_shoulder_offset - z}" rpy="${radians(90 + angle_deg)} 0 ${radians(90 + angle_deg)}" />
+            <axis xyz="0 1 0" />
+            <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
+        </joint>
+
+        <link name="${name}">
+            <visual>
+                <origin xyz="${-offsetX} ${offsetY} ${-offsetZ}" rpy="0 0 ${radians(180)}" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/utility_arm.obj" scale="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="${-offsetX} ${offsetY} ${-offsetZ}" rpy="0 ${radians(180)} 0" />
+                <geometry>
+                    <mesh filename="package://r2_description/meshes/utility_arm.obj" scale="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+            <xacro:inertial_sphere mass="0.01" radius="0.01">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+    </xacro:macro>
+
+    <xacro:utility_arm name="upper_utility_arm" x="${7.42 * 0.0254}" y="${4.459 * 0.0254}" z="${((3.476-1.181) / 2 + 1.181) * 0.0254 - 0.002}" angle_deg="0" />
+    <xacro:utility_arm name="lower_utility_arm" x="${7.42 * 0.0254}" y="-${4.459 * 0.0254}" z="${((5.888-3.536) / 2 + 3.536) * 0.0254 - 0.002}" angle_deg="180" />
+
+    
+</robot>
