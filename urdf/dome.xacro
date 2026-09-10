@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       xmlns:astromech="https://astromech.co/urdf/1.0" >
 
     <xacro:include filename="../meshes/dome/dome_constants.xacro"/>
 
     <!-- R is Red Axis, P is Green Axis, Y is Blue Axis -->
     <!---->
 
-    <xacro:macro name="pie_panel" params="name x y z angle_deg">
+    <xacro:macro name="pie_panel" params="name display x y z angle_deg">
         <xacro:property name="rot" value="${radians(90 - angle_deg)}" />
 
         <joint name="${name}_joint" type="revolute">
@@ -15,6 +16,7 @@
             <origin xyz="${x} ${y} ${z}" rpy="0 ${rot} 0" />
             <axis xyz="1 0 0" />
             <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
+            <astromech:servo display="${display}" />
         </joint>
 
         <link name="${name}">
@@ -59,15 +61,15 @@
         </xacro:inertial_sphere>
     </link>
 
-    <xacro:pie_panel name="pp1" x="${pp1_x}" y="${pp1_y}" z="${pp1_z}" angle_deg="${pp1_angle_deg}" />
-    <xacro:pie_panel name="pp2" x="${pp2_x}" y="${pp2_y}" z="${pp2_z}" angle_deg="${pp2_angle_deg}" />
+    <xacro:pie_panel name="pp1" display="PIE PANEL 1" x="${pp1_x}" y="${pp1_y}" z="${pp1_z}" angle_deg="${pp1_angle_deg}" />
+    <xacro:pie_panel name="pp2" display="PIE PANEL 2" x="${pp2_x}" y="${pp2_y}" z="${pp2_z}" angle_deg="${pp2_angle_deg}" />
 
-    <xacro:pie_panel name="pp4" x="${pp4_x}" y="${pp4_y}" z="${pp4_z}" angle_deg="${pp4_angle_deg}" />
-    <xacro:pie_panel name="pp5" x="${pp5_x}" y="${pp5_y}" z="${pp5_z}" angle_deg="${pp5_angle_deg}" />
-    <xacro:pie_panel name="pp6" x="${pp6_x}" y="${pp6_y}" z="${pp6_z}" angle_deg="${pp6_angle_deg}" />
+    <xacro:pie_panel name="pp4" display="PIE PANEL 4" x="${pp4_x}" y="${pp4_y}" z="${pp4_z}" angle_deg="${pp4_angle_deg}" />
+    <xacro:pie_panel name="pp5" display="PIE PANEL 5" x="${pp5_x}" y="${pp5_y}" z="${pp5_z}" angle_deg="${pp5_angle_deg}" />
+    <xacro:pie_panel name="pp6" display="PIE PANEL 6" x="${pp6_x}" y="${pp6_y}" z="${pp6_z}" angle_deg="${pp6_angle_deg}" />
 
     <!-- Lower Panels -->
-    <xacro:macro name="lower_panel" params="name x y z angle_deg">
+    <xacro:macro name="lower_panel" params="name display x y z angle_deg">
         <xacro:property name="rot" value="${radians(90 - angle_deg)}" />
 
         <joint name="${name}_joint" type="revolute">
@@ -76,6 +78,7 @@
             <origin xyz="${x} ${y} ${z}" rpy="0 ${rot} 0" />
             <axis xyz="-1 0 0" />
             <limit lower="0" upper="${radians(90)}" effort="100" velocity="100" />
+            <astromech:servo display="${display}" />
         </joint>
 
         <link name="${name}">
@@ -97,14 +100,14 @@
         </link>
     </xacro:macro>
 
-    <xacro:lower_panel name="p1" x="${p1_x}" y="${p1_y}" z="${p1_z}" angle_deg="${p1_angle_deg}" />
-    <xacro:lower_panel name="p2" x="${p2_x}" y="${p2_y}" z="${p2_z}" angle_deg="${p2_angle_deg}" />
-    <xacro:lower_panel name="p3" x="${p3_x}" y="${p3_y}" z="${p3_z}" angle_deg="${p3_angle_deg}" />
-    <xacro:lower_panel name="p4" x="${p4_x}" y="${p4_y}" z="${p4_z}" angle_deg="${p4_angle_deg}" />
-    <xacro:lower_panel name="p7" x="${p7_x}" y="${p7_y}" z="${p7_z}" angle_deg="${p7_angle_deg}" />
-    <xacro:lower_panel name="p10" x="${p10_x}" y="${p10_y}" z="${p10_z}" angle_deg="${p10_angle_deg}" />
-    <xacro:lower_panel name="p11" x="${p11_x}" y="${p11_y}" z="${p11_z}" angle_deg="${p11_angle_deg}" />
-    <xacro:lower_panel name="p13" x="${p13_x}" y="${p13_y}" z="${p13_z}" angle_deg="${p13_angle_deg}" />
+    <xacro:lower_panel name="p1" display="LOWER PANEL 1" x="${p1_x}" y="${p1_y}" z="${p1_z}" angle_deg="${p1_angle_deg}" />
+    <xacro:lower_panel name="p2" display="LOWER PANEL 2" x="${p2_x}" y="${p2_y}" z="${p2_z}" angle_deg="${p2_angle_deg}" />
+    <xacro:lower_panel name="p3" display="LOWER PANEL 3" x="${p3_x}" y="${p3_y}" z="${p3_z}" angle_deg="${p3_angle_deg}" />
+    <xacro:lower_panel name="p4" display="LOWER PANEL 4" x="${p4_x}" y="${p4_y}" z="${p4_z}" angle_deg="${p4_angle_deg}" />
+    <xacro:lower_panel name="p7" display="LOWER PANEL 7" x="${p7_x}" y="${p7_y}" z="${p7_z}" angle_deg="${p7_angle_deg}" />
+    <xacro:lower_panel name="p10" display="LOWER PANEL 10" x="${p10_x}" y="${p10_y}" z="${p10_z}" angle_deg="${p10_angle_deg}" />
+    <xacro:lower_panel name="p11" display="LOWER PANEL 11" x="${p11_x}" y="${p11_y}" z="${p11_z}" angle_deg="${p11_angle_deg}" />
+    <xacro:lower_panel name="p13" display="LOWER PANEL 13" x="${p13_x}" y="${p13_y}" z="${p13_z}" angle_deg="${p13_angle_deg}" />
 
 
 </robot>
