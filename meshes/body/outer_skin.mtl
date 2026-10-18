@@ -15,3 +15,6 @@ Kd 0.960784 0.960784 0.964706
 newmtl Powder_Coat_(Black)
 Kd 0.098039 0.098039 0.098039
 
+newmtl Aluminum_-_Satin_1
+Kd 0.960784 0.960784 0.964706
+

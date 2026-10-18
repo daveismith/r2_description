@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <!-- BF1 Constants -->
+  <xacro:property name="bf1_x" value="-0.200179" />
+  <xacro:property name="bf1_y" value="-0.193243" />
+  <xacro:property name="bf1_z" value="0.110182" />
+  <xacro:property name="bf1_angle_deg" value="151.1708" />
+  <xacro:property name="bf1_angle_rad" value="${radians(bf1_angle_deg)}" />
+
+  <!-- BF2 Constants -->
+  <xacro:property name="bf2_x" value="-0.144511" />
+  <xacro:property name="bf2_y" value="-0.19445" />
+  <xacro:property name="bf2_z" value="0.178307" />
+  <xacro:property name="bf2_angle_deg" value="129.0234" />
+  <xacro:property name="bf2_angle_rad" value="${radians(bf2_angle_deg)}" />
+
+  <!-- BF3 Constants -->
+  <xacro:property name="bf3_x" value="-0.095601" />
+  <xacro:property name="bf3_y" value="-0.299314" />
+  <xacro:property name="bf3_z" value="0.207538" />
+  <xacro:property name="bf3_angle_deg" value="114.7328" />
+  <xacro:property name="bf3_angle_rad" value="${radians(bf3_angle_deg)}" />
+
+  <!-- BF4 Constants -->
+  <xacro:property name="bf4_x" value="0.140286" />
+  <xacro:property name="bf4_y" value="-0.258877" />
+  <xacro:property name="bf4_z" value="0.180364" />
+  <xacro:property name="bf4_angle_deg" value="52.1244" />
+  <xacro:property name="bf4_angle_rad" value="${radians(bf4_angle_deg)}" />
+
+  <!-- BF5 Constants -->
+  <xacro:property name="bf5_x" value="0.199836" />
+  <xacro:property name="bf5_y" value="-0.193243" />
+  <xacro:property name="bf5_z" value="0.110801" />
+  <xacro:property name="bf5_angle_deg" value="29.0066" />
+  <xacro:property name="bf5_angle_rad" value="${radians(bf5_angle_deg)}" />
+
+  <!-- BR1 Constants -->
+  <xacro:property name="br1_x" value="0.200519" />
+  <xacro:property name="br1_y" value="-0.193243" />
+  <xacro:property name="br1_z" value="-0.109562" />
+  <xacro:property name="br1_angle_deg" value="-28.6519" />
+  <xacro:property name="br1_angle_rad" value="${radians(br1_angle_deg)}" />
+
+  <!-- BR6 Constants -->
+  <xacro:property name="br6_x" value="-0.199493" />
+  <xacro:property name="br6_y" value="-0.193243" />
+  <xacro:property name="br6_z" value="-0.111419" />
+  <xacro:property name="br6_angle_deg" value="-150.8161" />
+  <xacro:property name="br6_angle_rad" value="${radians(br6_angle_deg)}" />
+
+</robot>

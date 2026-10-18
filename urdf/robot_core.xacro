@@ -322,27 +322,6 @@
         <parent link="shoulder" />
         <child link="body" />
     </joint>
-
-    <link name="body">
-        <visual>
-            <origin xyz="0 0 ${body_shoulder_offset}" rpy="${radians(90)} 0 ${radians(90)}" />
-            <geometry>
-                <!-- Exported in meters -->
-                <mesh filename="package://r2_description/meshes/frame.obj" scale="1 1 1" />
-            </geometry>
-        </visual>
-
-        <collision>
-            <origin xyz="0 0 ${body_shoulder_offset}" rpy="${radians(90)} 0 ${radians(90)}" />
-            <geometry>
-                <mesh filename="package://r2_description/meshes/frame.obj" scale="1 1 1" />
-            </geometry>
-        </collision>
-
-        <xacro:inertial_cylinder mass="${body_mass}" length="${body_height}" radius="${body_radius}">
-            <origin xyz="0 0 ${body_shoulder_offset - (body_height/2)}" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
     
     <!-- SKIRT -->
     <xacro:property name="skirt_mass" value="1"/>
@@ -499,28 +478,9 @@
         <mu2>0</mu2>
     </gazebo>
 
-    <!-- DOME -->
-    <joint name="dome_joint" type="continuous">
-        <parent link="body" />
-        <child link="dome" />
-        <origin xyz="0 0 ${dome_offset}" rpy="${radians(90)} 0 ${radians(180)}" />
-        <axis xyz="0 -1 0" />
-    </joint>
+    <xacro:include filename="body.xacro" />
 
-    <link name="dome">
-        <visual>
-            <geometry>
-                <mesh filename="package://r2_description/meshes/dome.obj" />
-            </geometry>
-        </visual>
-        <collision>
-            <geometry>
-                <mesh filename="package://r2_description/meshes/dome.obj" />
-            </geometry>
-        </collision>
-        <xacro:inertial_sphere mass="1" radius="${dome_radius}">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_sphere>
-    </link>
+    <!-- DOME -->
+    <xacro:include filename="dome.xacro" />
 
 </robot>
