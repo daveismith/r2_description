@@ -282,14 +282,25 @@
         shoulder to ankle is 21.638 in" (549.6052 mm)
         ${0.5496052 - 0.245745 + 0.098425}
     -->
+    <!--
+        The legs and shoulder form a closed loop, which a URDF (a tree) can't hold, so the
+        body hangs off the right leg only. left_shoulder_joint is kept for the left shoulder
+        sensor and the left ankle's mimic, with its own frame-only child: making it a second
+        parent of `shoulder` gave viewers that read the URDF (Foxglove) two conflicting
+        paths to the body. The origin mirrors the right shoulder's, so left_shoulder sits
+        on the shoulder hub.
+    -->
     <xacro:unless value="$(arg sim_mode)">
         <joint name="left_shoulder_joint" type="revolute">
-            <origin xyz="0 ${body_radius - 0.0127} ${0.5496052}" rpy="0 0 0" />
+            <origin xyz="0 -${body_radius - 0.0127} ${0.5496052}" rpy="0 0 0" />
             <parent link="left_leg" />
-            <child link="shoulder" />
+            <child link="left_shoulder" />
             <axis xyz="0 -1 0" />
             <limit lower="-${radians(4)}" upper="${radians(36)}" velocity="100" effort="100" />
         </joint>
+
+        <link name="left_shoulder">
+        </link>
     </xacro:unless>
 
     <joint name="right_shoulder_joint" type="revolute">
