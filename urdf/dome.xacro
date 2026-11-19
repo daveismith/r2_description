@@ -3,6 +3,8 @@
        xmlns:astromech="https://astromech.co/urdf/1.0" >
 
     <xacro:include filename="../meshes/dome/dome_constants.xacro"/>
+    <xacro:include filename="../meshes/dome/holo_constants.xacro"/>
+    <xacro:include filename="holo_projector.xacro"/>
 
     <!-- R is Red Axis, P is Green Axis, Y is Blue Axis -->
     <!---->
@@ -109,5 +111,9 @@
     <xacro:lower_panel name="p11" display="LOWER PANEL 11" x="${p11_x}" y="${p11_y}" z="${p11_z}" angle_deg="${p11_angle_deg}" />
     <xacro:lower_panel name="p13" display="LOWER PANEL 13" x="${p13_x}" y="${p13_y}" z="${p13_z}" angle_deg="${p13_angle_deg}" />
 
+    <!-- Holo projectors: poses fitted to the holes in base_dome.obj (holo_constants.xacro) -->
+    <xacro:holo_projector name="hp_front" display="FRONT HOLO" parent="dome" xyz="${hp_front_xyz}" rpy="${hp_front_rpy}" />
+    <xacro:holo_projector name="hp_top" display="TOP HOLO" parent="dome" xyz="${hp_top_xyz}" rpy="${hp_top_rpy}" />
+    <xacro:holo_projector name="hp_rear" display="REAR HOLO" parent="dome" xyz="${hp_rear_xyz}" rpy="${hp_rear_rpy}" />
 
 </robot>
