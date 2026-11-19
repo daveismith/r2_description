@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       xmlns:astromech="https://astromech.co/urdf/1.0" >
+
+    <!-- Holo projector: a cowl fixed to its parent and a ball-jointed body inside it.
+
+         The ball is moved by two servos that push and pull it in X and Y, so it is modelled
+         as two revolute joints whose axes cross at the ball's centre:
+
+           ${name}_x_joint   swings the lens in X (left/right)
+           ${name}_y_joint   swings the lens in Y (up/down)
+
+         The frame given by xyz/rpy (in the parent's frame) is the ball's centre, with +Z out
+         along the lens at rest, +X to the viewer's right when looking into the lens and +Y
+         up. A positive joint position moves the lens towards + on that axis; 0 is centred.
+
+         name      prefix for the links and joints
+         display   name shown for the servos ("<display> X", "<display> Y")
+         parent    link the cowl is fixed to
+         xyz, rpy  the projector's frame in the parent's frame
+         travel    how far each joint swings either side of centre, radians -->
+
+    <xacro:property name="holo_ball_radius" value="0.030963" />
+    <xacro:property name="holo_mesh_dir" value="package://r2_description/meshes/dome" />
+
+    <material name="holo_aluminium">
+        <color rgba="0.75 0.76 0.78 1" />
+    </material>
+
+    <xacro:macro name="holo_projector"
+                 params="name display parent xyz rpy travel:=${radians(25)}">
+
+        <joint name="${name}_mount" type="fixed">
+            <parent link="${parent}" />
+            <child link="${name}" />
+            <origin xyz="${xyz}" rpy="${rpy}" />
+        </joint>
+
+        <!-- The cowl: its flange is inside the dome against the skin, its base level with
+             the ball's centre, and its cone comes out through the hole -->
+        <link name="${name}">
+            <visual>
+                <geometry>
+                    <mesh filename="${holo_mesh_dir}/holo_projector_cowl.stl" scale="0.001 0.001 0.001" />
+                </geometry>
+                <material name="holo_aluminium" />
+            </visual>
+            <xacro:inertial_sphere mass="0.02" radius="0.03">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+
+        <joint name="${name}_x_joint" type="revolute">
+            <parent link="${name}" />
+            <child link="${name}_gimbal" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <axis xyz="0 1 0" />
+            <limit lower="${-travel}" upper="${travel}" effort="100" velocity="100" />
+            <astromech:servo display="${display} X" />
+        </joint>
+
+        <!-- Nothing physical: the link between the two axes of the ball joint -->
+        <link name="${name}_gimbal">
+            <xacro:inertial_sphere mass="0.005" radius="0.01">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+
+        <joint name="${name}_y_joint" type="revolute">
+            <parent link="${name}_gimbal" />
+            <child link="${name}_body" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <axis xyz="-1 0 0" />
+            <limit lower="${-travel}" upper="${travel}" effort="100" velocity="100" />
+            <astromech:servo display="${display} Y" />
+        </joint>
+
+        <link name="${name}_body">
+            <visual>
+                <geometry>
+                    <mesh filename="${holo_mesh_dir}/holo_projector_body.stl" scale="0.001 0.001 0.001" />
+                </geometry>
+                <material name="holo_aluminium" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${holo_ball_radius}" />
+                </geometry>
+            </collision>
+            <xacro:inertial_sphere mass="0.05" radius="${holo_ball_radius}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+    </xacro:macro>
+
+</robot>
