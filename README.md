@@ -27,8 +27,9 @@ ball's centre:
 The projector's frame (link `<name>`) is at the ball's centre: +Z out along the lens at rest
 (the dome skin's normal at the hole),
 +X to the viewer's right when looking into the lens, +Y towards the top of the dome. A
-positive joint position moves the lens towards + on its axis. For the front projector +X is
-the droid's left; for the rear one it is the droid's right.
+positive joint position moves the lens towards + on its axis. Seen from above, +X swings
+every lens anticlockwise: the front one to the droid's left, the rear one to the droid's
+right. +Y tilts the front and rear ones up and the top one towards the dome's apex.
 
 The poses are not typed in. `tools/holo_projector_fit.py poses` finds the three 65 mm holes
 in `meshes/dome/base_dome.obj` and writes `meshes/dome/holo_constants.xacro`. The cowl's flange
